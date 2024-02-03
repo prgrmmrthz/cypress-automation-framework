@@ -3,7 +3,8 @@
 describe("test contact us form", () => {
     it("should submit a success contact form", () => {
         //code
-        cy.visit("https://webdriveruniversity.com/Contact-Us/contactus.html");
+        cy.visit("https://webdriveruniversity.com");
+        cy.get('#contact-us').invoke('removeAttr', 'target').click();
         cy.get("#contact_me").should('be.visible');
         cy.get('[name="first_name"]').type('Test Name');
         //cy.get("#ContactUsFrm_email").type('test_email@gmail.com');
