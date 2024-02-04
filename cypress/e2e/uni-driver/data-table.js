@@ -1,7 +1,7 @@
 /// <reference types="Cypress" />
 
 describe("test data table", () => {
-    beforeEach(() => {
+    before(() => {
         cy.visit("https://webdriveruniversity.com");
         cy.get('#data-table').invoke('removeAttr', 'target').click();
     });

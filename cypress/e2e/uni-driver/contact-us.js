@@ -1,21 +1,31 @@
 /// <reference types="Cypress" />
 
 describe("test contact us form", () => {
-    it("should submit a success contact form", () => {
-        //code
+    before(() => {
+        cy.fixture('example_FINAL').then((data) => {
+            globalThis.data = data;
+        });
+        cy.fixture('userDetails').as('user');
+    });
+    beforeEach(() => {
         cy.visit("https://webdriveruniversity.com");
         cy.get('#contact-us').invoke('removeAttr', 'target').click();
+    });
+    it("should submit a success contact form", () => {
+        //code
         cy.get("#contact_me").should('be.visible');
-        cy.get('[name="first_name"]').type('Test Name');
-        //cy.get("#ContactUsFrm_email").type('test_email@gmail.com');
-        //cy.get("#ContactUsFrm_enquiry").type('Test Enquiry');
-        //cy.get('button[title="Submit"]').click();
-        //cy.get('.mb40 > :nth-child(3)').should('have.text', 'Your enquiry has been successfully sent to the store owner!')
-        //cy.xpath("//a[contains(@href, 'contact')]").click();
+        cy.get('@user').then((data) => {
+            cy.get('[name="email"]').type(data.email);
+        });
+        cy.get('[name="first_name"]').type(data.fn);
+        cy.get('[name="last_name"]').type(data.ln);
+
+        cy.get('[name="message"]').type(data.name);
+        cy.get('[type="submit"]').click();
+        cy.get('h1').should('have.text', 'Thank You for your Message!');
     });
 
     it("should not submit a success contact form as all fields are required", () => {
-        cy.visit("https://webdriveruniversity.com/Contact-Us/contactus.html");
         cy.get("#contact_me").should('be.visible');
         cy.get('[name="first_name"]').type('Test Name');
         cy.get('[type="submit"]').click();
